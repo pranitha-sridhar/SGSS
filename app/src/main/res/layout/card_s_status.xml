@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:padding="10dp"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/susername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Username"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/slevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susername"
+            android:paddingLeft="4dp"
+            android:text="Level" />
+
+        <TextView
+            android:id="@+id/ssubcategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susername"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:text="Sub Category" />
+
+        <TextView
+            android:id="@+id/scategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susername"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/ssubcategory"
+            android:background="@color/cardview_shadow_start_color"
+            android:text="Category" />
+
+        <TextView
+            android:id="@+id/sbody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/slevel"
+            android:padding="4dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
+        <TextView
+            android:id="@+id/statusheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbody"
+            android:padding="4dp"
+            android:text="Status"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbody"
+            android:layout_toRightOf="@id/statusheading"
+            android:padding="4dp"
+            android:text="checkStatus" />
+
+        <TextView
+            android:id="@+id/replyhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status"
+            android:padding="4dp"
+            android:text="Reply"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status"
+            android:layout_toRightOf="@id/replyhead"
+            android:padding="4dp"
+            android:text="Est velit egestas dui id ornare arcu. Tempor orci dapibus ultrices in."
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

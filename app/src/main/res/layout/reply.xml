@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FBC02D"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/browser_actions_bg_grey"
+            android:src="@drawable/ic_close" />
+
+        <TextView
+            android:id="@+id/susernam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/closeButton"
+            android:padding="4dp"
+            android:text="Username"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/sleve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susernam"
+            android:paddingLeft="4dp"
+            android:text="Level" />
+
+        <TextView
+            android:id="@+id/ssubcategor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susernam"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:text="Sub Category" />
+
+        <TextView
+            android:id="@+id/scategor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/susernam"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/ssubcategor"
+            android:background="@color/cardview_shadow_start_color"
+            android:text="Category" />
+
+        <TextView
+            android:id="@+id/sbod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sleve"
+            android:padding="4dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
+        <TextView
+            android:id="@+id/statusheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbod"
+            android:padding="4dp"
+            android:text="Status"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/statu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sbod"
+            android:layout_toRightOf="@id/statusheading"
+            android:padding="4dp"
+            android:text="checkStatus" />
+
+        <EditText
+            android:id="@+id/repl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statu"
+            android:hint="Enter your reply"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/savebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/repl"
+            android:layout_centerInParent="true"
+            android:text="Send" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
