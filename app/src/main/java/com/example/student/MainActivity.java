@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient signInClient;
     String textc, texta, textd, gender, name, propic;
     private FirebaseAuth mAuth;
+    int flag27;
 
     @Override
     protected void onStart() {
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        flag27 = 0;
         if (requestCode == flag1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -87,64 +89,109 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 if (flag == 0) {
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
-                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users_Prof");
+                                    db.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
-                                                textc = "Enter College name";
-                                                texta = "Enter Admission No";
-                                                textd = "Enter your department";
-                                                gender = "Male";
-                                                name = mAuth.getCurrentUser().getDisplayName();
-                                                propic = String.valueOf(mAuth.getCurrentUser().getPhotoUrl());
-                                                DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-                                                final ProfileDatabase profileDatabase = new ProfileDatabase(name, textc, texta, textd, gender, propic);
-                                                db.setValue(profileDatabase);
+                                            if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                                                flag27 = 1;
+                                                progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(MainActivity.this, "User not a Student. Change the type", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                if (flag27 == 0) {
+                                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                                                                textc = "Enter College name";
+                                                                texta = "Enter Admission No";
+                                                                textd = "Enter your department";
+                                                                gender = "Male";
+                                                                name = mAuth.getCurrentUser().getDisplayName();
+                                                                propic = String.valueOf(mAuth.getCurrentUser().getPhotoUrl());
+                                                                DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+                                                                final ProfileDatabase profileDatabase = new ProfileDatabase(name, textc, texta, textd, gender, propic);
+                                                                db.setValue(profileDatabase);
+
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                                                        }
+                                                    });
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Toast.makeText(getApplicationContext(), "Log In Successful!", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getApplicationContext(), HomeS.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+
                                             }
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
                                         }
                                     });
-                                    progressBar.setVisibility(View.GONE);
-
-                                    Toast.makeText(getApplicationContext(), "Log In Successful!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), HomeS.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
 
 
-                                } else {
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users_Prof");
-                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                }
+                                if (flag == 1) {
+                                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users_Prof");
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    db.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
-                                                textc = "Enter College name";
-                                                texta = "Enter Employee Code";
-                                                textd = "Enter your department";
-                                                name = mAuth.getCurrentUser().getDisplayName();
-                                                propic = String.valueOf(mAuth.getCurrentUser().getPhotoUrl());
-                                                DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users_Prof").child(mAuth.getCurrentUser().getUid());
-                                                final ProfileDatabase profileDatabase = new ProfileDatabase(name, textc, texta, textd, "", propic);
-                                                db.setValue(profileDatabase);
+                                            if (dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                                                flag27 = 1;
+                                                progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(MainActivity.this, "User not a Committee Member. Change the type", Toast.LENGTH_SHORT).show();
+
+                                            } else {
+                                                if (flag27 == 0) {
+                                                    databaseReference.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            if (!dataSnapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                                                                textc = "Enter College name";
+                                                                texta = "Enter Employee Code";
+                                                                textd = "Enter your department";
+                                                                name = mAuth.getCurrentUser().getDisplayName();
+                                                                propic = String.valueOf(mAuth.getCurrentUser().getPhotoUrl());
+                                                                DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users_Prof").child(mAuth.getCurrentUser().getUid());
+                                                                final ProfileDatabase profileDatabase = new ProfileDatabase(name, textc, texta, textd, "", propic);
+                                                                db.setValue(profileDatabase);
+
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                                                        }
+                                                    });
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Toast.makeText(getApplicationContext(), "Log In Successful!", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(getApplicationContext(), HomeM.class));
+                                                }
                                             }
+
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
                                         }
                                     });
-                                    progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(getApplicationContext(), "Log In Successful!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), HomeM.class));
+
+
                                 }
                             }
                         }
