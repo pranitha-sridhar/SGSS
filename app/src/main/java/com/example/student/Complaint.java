@@ -37,7 +37,7 @@ public class Complaint extends AppCompatActivity {
     String[] sub1 = {"Admission", "Finance", "Fee issue"};
     String[] sub2 = {"Examination", "Lecture Timings", "Paper Revaluation", "Attendence", "Faculties", "Syllabus issue"};
     String[] sub3 = {"Health", "Ragging", "Complaint Against Professors"};
-    String slevel, scategory, ssubcategory, complaint, username, usernameid, upermission = "Public";
+    String slevel, scategory, ssubcategory, complaint, username, addno, usernameid, upermission = "Public";
     int flag = 0;
     int flag1 = 0, flag2 = 0;
     ProgressBar progressBar;
@@ -63,6 +63,7 @@ public class Complaint extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     usernameid = dataSnapshot.child("name").getValue().toString();
+                    addno = dataSnapshot.child("addNo").getValue().toString();
                 }
             }
 
@@ -185,7 +186,7 @@ public class Complaint extends AppCompatActivity {
 
                 final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Complaints");
                 String childid = databaseReference.push().getKey();
-                CardItem cardItem = new CardItem(username, slevel, scategory, ssubcategory, complaint, "not checked", "no reply", mAuth.getCurrentUser().getUid(), upermission, childid);
+                CardItem cardItem = new CardItem(username, addno, slevel, scategory, ssubcategory, complaint, "Not Checked", "No Reply yet", mAuth.getCurrentUser().getUid(), upermission, childid);
                 databaseReference.child(childid).setValue(cardItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

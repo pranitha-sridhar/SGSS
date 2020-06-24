@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
+    android:layout_margin="5dp"
     android:padding="10dp"
     app:cardCornerRadius="4dp">
 
@@ -17,35 +17,44 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:text="Username"
-            android:textSize="20sp" />
+            android:textColor="#C2185B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/slevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/susername"
-            android:paddingLeft="4dp"
-            android:text="Level" />
+            android:paddingStart="4dp"
+            android:text="Level"
+            android:textColor="#E2C2185B"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/ssubcategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/susername"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="4dp"
-            android:background="@color/cardview_shadow_start_color"
-            android:text="Sub Category" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/status_round"
+            android:text="Sub Category"
+            android:textColor="#000000"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/scategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/susername"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/ssubcategory"
-            android:background="@color/cardview_shadow_start_color"
-            android:text="Category" />
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/ssubcategory"
+            android:background="@drawable/status_round"
+            android:text="Category"
+            android:textColor="#000000"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/sbody"
@@ -61,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/sbody"
             android:padding="4dp"
-            android:text="Status"
+            android:text="Status:"
+            android:textColor="#C2185B"
             android:textStyle="bold" />
 
         <TextView
@@ -71,6 +81,7 @@
             android:layout_below="@id/sbody"
             android:layout_toRightOf="@id/statusheading"
             android:padding="4dp"
+            android:textColor="#000000"
             android:text="checkStatus" />
 
         <TextView
@@ -79,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/status"
             android:padding="4dp"
-            android:text="Reply"
+            android:text="Reply:"
+            android:textColor="#C2185B"
             android:textStyle="bold" />
 
         <TextView
@@ -87,8 +99,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/status"
-            android:layout_toRightOf="@id/replyhead"
+            android:layout_toEndOf="@id/replyhead"
             android:padding="4dp"
+            android:textColor="#000000"
             android:text="Est velit egestas dui id ornare arcu. Tempor orci dapibus ultrices in."
             android:textSize="15sp" />
 

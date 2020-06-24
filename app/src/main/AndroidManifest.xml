@@ -16,7 +16,9 @@
         <activity
             android:name=".ProfileM"
             android:noHistory="true" />
-        <activity android:name=".HomeM" />
+        <activity
+            android:name=".HomeM"
+            android:theme="@style/AppTheme.NoActionBar.NoT" />
         <activity android:name=".Complaint" />
         <activity
             android:name=".ProfileS"

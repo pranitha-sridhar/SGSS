@@ -2,6 +2,7 @@ package com.example.student;
 
 public class CardItem {
     String username;
+    String addno;
     String level;
     String category;
     String subcategory;
@@ -13,9 +14,10 @@ public class CardItem {
     String childid;
 
 
-    public CardItem(String username, String level, String category, String subcategory, String body, String status, String reply, String userid, String permission, String childid) {
+    public CardItem(String username, String addno, String level, String category, String subcategory, String body, String status, String reply, String userid, String permission, String childid) {
         this.childid = childid;
         this.username = username;
+        this.addno = addno;
         this.level = level;
         this.category = category;
         this.subcategory = subcategory;
@@ -29,6 +31,10 @@ public class CardItem {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getAddno() {
+        return addno;
     }
 
     public String getLevel() {

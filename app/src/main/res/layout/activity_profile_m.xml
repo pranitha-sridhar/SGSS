@@ -14,6 +14,8 @@
         android:layout_marginTop="30dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:text="UPDATE YOUR PROFILE"
         android:textSize="25sp" />
 
@@ -28,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimary"
             android:text="Tap on the Image to Choose your Picture" />
 
         <ImageView
@@ -52,7 +55,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap to Save" />
+                android:text="Tap to Save"
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 
@@ -106,7 +110,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="SAVE" />
+            android:background="@drawable/profile_button"
+            android:text="SAVE"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

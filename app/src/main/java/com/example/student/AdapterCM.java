@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
-    String schildid, sname;
     private ArrayList<CardItem> cardItemArrayList;
     private OnItemClickListener mlistener;
 
@@ -26,7 +25,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
     @NonNull
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_s_status, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_list, parent, false);
         AdapterCM.holder vH = new AdapterCM.holder(view, mlistener);
         return vH;
 
@@ -34,7 +33,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull holder holder, int position) {
+    public void onBindViewHolder(@NonNull final holder holder, int position) {
         CardItem cardItem = cardItemArrayList.get(position);
         holder.username.setText(cardItem.getUsername());
         holder.level.setText(cardItem.getLevel());
@@ -43,8 +42,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
         holder.body.setText(cardItem.getBody());
         holder.status.setText(cardItem.getStatus());
         holder.reply.setText(cardItem.getReply());
-
-        schildid = cardItem.getChildid();
+        holder.addno.setText(cardItem.getAddno());
     }
 
     @Override
@@ -57,7 +55,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
     }
 
     public class holder extends RecyclerView.ViewHolder {
-        TextView username, level, category, subcat, body, status, reply;
+        TextView username, level, category, subcat, body, status, reply, addno;
 
         public holder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -69,6 +67,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
             body = itemView.findViewById(R.id.sbody);
             status = itemView.findViewById(R.id.status);
             reply = itemView.findViewById(R.id.reply);
+            addno = itemView.findViewById(R.id.admissionnumber);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

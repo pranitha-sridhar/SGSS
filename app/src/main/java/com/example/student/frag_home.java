@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +34,8 @@ import java.util.ArrayList;
 
 public class frag_home extends Fragment {
     FirebaseAuth mAuth;
-    ImageView button, filterb, closeb;
+    ImageView closeb;
+    FloatingActionButton createb, filterb;
     Button filterbutton;
     ArrayList<CardItem> arrayList = new ArrayList<>();
     RecyclerView recyclerView;
@@ -54,14 +56,15 @@ public class frag_home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        button = view.findViewById(R.id.createb);
+        createb = view.findViewById(R.id.createb);
         progressBar = view.findViewById(R.id.progressBar);
         filterb = view.findViewById(R.id.filterb);
         layout = view.findViewById(R.id.layout);
 
         mAuth = FirebaseAuth.getInstance();
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+        createb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.GONE);
@@ -73,6 +76,8 @@ public class frag_home extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getContext());
+        ((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         if (fl1 == 0 && fl2 == 0 && fl3 == 0 && fc1 == 0 && fc2 == 0 && fc3 == 0 && fs11 == 0 && fs12 == 0 && fs13 == 0 && fs21 == 0 && fs22 == 0 && fs23 == 0 && fs31 == 0 && fs32 == 0 && fs33 == 0 && fs24 == 0 && fs25 == 0 && fs26 == 0) {
@@ -94,7 +99,7 @@ public class frag_home extends Fragment {
                         String ustatus = ds.child("status").getValue().toString();
                         String uper = ds.child("permission").getValue().toString();
                         String uid = mAuth.getCurrentUser().getUid();
-                        arrayList.add(new CardItem(uname, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
+                        arrayList.add(new CardItem(uname, "", ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
 
 
                     }
@@ -302,7 +307,7 @@ public class frag_home extends Fragment {
                                             (fs11 == 1 && usub.equals("Admission")) || (fs12 == 1 && usub.equals("Finance")) || (fs13 == 1 && usub.equals("Fee Issue")) ||
                                             (fs21 == 1 && usub.equals("Examination")) || (fs22 == 1 && usub.equals("Lecture Timings")) || (fs23 == 1 && usub.equals("Paper Revaluation")) || (fs24 == 1 && usub.equals("Attendence")) || (fs25 == 1 && usub.equals("Faculties")) || (fs26 == 1 && usub.equals("Syllabus Issue")) ||
                                             (fs31 == 1 && usub.equals("Health")) || (fs32 == 1 && usub.equals("Ragging")) || (fs33 == 1 && usub.equals("Complaint Against Professors")))
-                                        arrayList.add(new CardItem(uname, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
+                                        arrayList.add(new CardItem(uname, " ", ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
 
 
                                 }

@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,14 +36,16 @@ import java.util.ArrayList;
 
 public class HomeM extends AppCompatActivity {
     public static String CHANNEL_ID = "SSS";
-    ImageView signout, filterb, closeb;
+    ImageView closeb;
+    FloatingActionButton filterb, signout;
     Button filterbutton;
     FirebaseAuth mAuth;
     ArrayList<CardItem> arrayList = new ArrayList<>();
     RecyclerView recyclerView;
     AdapterCM adapter;
     RecyclerView.LayoutManager layoutManager;
-    LinearLayout layout;
+    RelativeLayout layout;
+    int back = 0;
     CheckBox l1, l2, l3, c1, c2, c3, s11, s12, s13, s21, s22, s23, s24, s25, s26, s31, s32, s33, all;
     int fl1 = 0, fl2 = 0, fl3 = 0, fc1 = 0, fc2 = 0, fc3 = 0, fs11 = 0, fs12 = 0, fs13 = 0, fs21 = 0, fs22 = 0, fs23 = 0, fs24 = 0, fs25 = 0, fs26 = 0, fs31 = 0, fs32 = 0, fs33 = 0, a = 0;
 
@@ -53,13 +56,15 @@ public class HomeM extends AppCompatActivity {
         setContentView(R.layout.activity_home_m);
 
         signout = findViewById(R.id.signout);
-        filterb = findViewById(R.id.filterb);
+        filterb = findViewById(R.id.filter);
         layout = findViewById(R.id.layout3);
         mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getApplicationContext());
+        ((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         if (fl1 == 0 && fl2 == 0 && fl3 == 0 && fc1 == 0 && fc2 == 0 && fc3 == 0 && fs11 == 0 && fs12 == 0 && fs13 == 0 && fs21 == 0 && fs22 == 0 && fs23 == 0 && fs31 == 0 && fs32 == 0 && fs33 == 0 && fs24 == 0 && fs25 == 0 && fs26 == 0) {
@@ -73,14 +78,15 @@ public class HomeM extends AppCompatActivity {
                         String childid = ds.getKey();
                         String uname = ds.child("username").getValue().toString();
                         String ulevel = ds.child("level").getValue().toString();
+                        String uadd = ds.child("addno").getValue().toString();
                         String ucat = ds.child("category").getValue().toString();
                         String usub = ds.child("subcategory").getValue().toString();
                         String ubody = ds.child("body").getValue().toString();
                         String ureply = ds.child("reply").getValue().toString();
                         String ustatus = ds.child("status").getValue().toString();
                         String uper = ds.child("permission").getValue().toString();
-                        String uid = mAuth.getCurrentUser().getUid();
-                        arrayList.add(new CardItem(uname, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
+                        String uid = ds.child("userid").getValue().toString();
+                        arrayList.add(new CardItem(uname, uadd, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
 
 
                     }
@@ -91,6 +97,7 @@ public class HomeM extends AppCompatActivity {
                     adapter = new AdapterCM(arrayList);
                     recyclerView.setAdapter(adapter);
 
+
                     adapter.setOnItemClickListener(new AdapterCM.OnItemClickListener() {
                         @Override
                         public void onItemClick(final int position) {
@@ -98,9 +105,10 @@ public class HomeM extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Opened", Toast.LENGTH_SHORT).show();
                             LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             assert layoutInflater != null;
-                            View customView = layoutInflater.inflate(R.layout.reply, null);
+                            View customView = layoutInflater.inflate(R.layout.member_reply, null);
 
                             final TextView name = customView.findViewById(R.id.susernam);
+                            final TextView addnumber = customView.findViewById(R.id.admissionnoo);
                             final TextView leve = customView.findViewById(R.id.sleve);
                             final TextView cat = customView.findViewById(R.id.scategor);
                             final TextView sub = customView.findViewById(R.id.ssubcategor);
@@ -116,23 +124,13 @@ public class HomeM extends AppCompatActivity {
                             popupWindow.setFocusable(true);
                             popupWindow.update();
 
-                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Complaints").child(cardItem.getChildid());
-                            db.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    name.setText(cardItem.getUsername());
-                                    leve.setText(cardItem.getLevel());
-                                    cat.setText(cardItem.getCategory());
-                                    sub.setText(cardItem.getSubcategory());
-                                    bod.setText(cardItem.getBody());
-                                    statu.setText(cardItem.getStatus());
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
+                            name.setText(cardItem.getUsername());
+                            leve.setText(cardItem.getLevel());
+                            cat.setText(cardItem.getCategory());
+                            sub.setText(cardItem.getSubcategory());
+                            bod.setText(cardItem.getBody());
+                            statu.setText(cardItem.getStatus());
+                            addnumber.setText(cardItem.getAddno());
 
 
                             close.setOnClickListener(new View.OnClickListener() {
@@ -150,9 +148,7 @@ public class HomeM extends AppCompatActivity {
                                     cardItem.status = "Checked";
                                     cardItem.reply = sreply;
 
-
                                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Complaints").child(cardItem.getChildid());
-
                                     reference.setValue(cardItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -191,7 +187,7 @@ public class HomeM extends AppCompatActivity {
 
                 LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 assert layoutInflater != null;
-                View custom = layoutInflater.inflate(R.layout.filter_out, null);
+                final View custom = layoutInflater.inflate(R.layout.filter_out, null);
 
                 closeb = custom.findViewById(R.id.closeb);
                 filterbutton = custom.findViewById(R.id.filbut);
@@ -358,6 +354,7 @@ public class HomeM extends AppCompatActivity {
                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                     String childid = ds.getKey();
                                     String uname = ds.child("username").getValue().toString();
+                                    String uadd = ds.child("addno").getValue().toString();
                                     String ulevel = ds.child("level").getValue().toString();
                                     String ucat = ds.child("category").getValue().toString();
                                     String usub = ds.child("subcategory").getValue().toString();
@@ -365,12 +362,12 @@ public class HomeM extends AppCompatActivity {
                                     String ureply = ds.child("reply").getValue().toString();
                                     String ustatus = ds.child("status").getValue().toString();
                                     String uper = ds.child("permission").getValue().toString();
-                                    String uid = mAuth.getCurrentUser().getUid();
+                                    String uid = ds.child("userid").getValue().toString();
                                     if ((fl1 == 1 && ulevel.equals("Department")) || (fl2 == 1 && ulevel.equals("College")) || (fl3 == 1 && ulevel.equals("University")) || (fl1 == 0 && fl2 == 0 && fl3 == 0 && fc1 == 0 && fc2 == 0 && fc3 == 0 && fs11 == 0 && fs12 == 0 && fs13 == 0 && fs21 == 0 && fs22 == 0 && fs23 == 0 && fs31 == 0 && fs32 == 0 && fs33 == 0 && fs24 == 0 && fs25 == 0 && fs26 == 0) ||
                                             (fs11 == 1 && usub.equals("Admission")) || (fs12 == 1 && usub.equals("Finance")) || (fs13 == 1 && usub.equals("Fee Issue")) ||
                                             (fs21 == 1 && usub.equals("Examination")) || (fs22 == 1 && usub.equals("Lecture Timings")) || (fs23 == 1 && usub.equals("Paper Revaluation")) || (fs24 == 1 && usub.equals("Attendence")) || (fs25 == 1 && usub.equals("Faculties")) || (fs26 == 1 && usub.equals("Syllabus Issue")) ||
                                             (fs31 == 1 && usub.equals("Health")) || (fs32 == 1 && usub.equals("Ragging")) || (fs33 == 1 && usub.equals("Complaint Against Professors")))
-                                        arrayList.add(new CardItem(uname, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
+                                        arrayList.add(new CardItem(uname, uadd, ulevel, ucat, usub, ubody, ustatus, ureply, uid, uper, childid));
 
 
                                 }
@@ -381,43 +378,37 @@ public class HomeM extends AppCompatActivity {
                                 adapter = new AdapterCM(arrayList);
                                 recyclerView.setAdapter(adapter);
 
+
                                 adapter.setOnItemClickListener(new AdapterCM.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(final int position) {
                                         Toast.makeText(getApplicationContext(), "Opened", Toast.LENGTH_SHORT).show();
                                         LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                                         assert layoutInflater != null;
-                                        View customView = layoutInflater.inflate(R.layout.reply, null);
+                                        View customView = layoutInflater.inflate(R.layout.member_reply, null);
 
                                         final TextView name = customView.findViewById(R.id.susernam);
+                                        final TextView addno = customView.findViewById(R.id.admissionnoo);
                                         final TextView leve = customView.findViewById(R.id.sleve);
                                         final TextView cat = customView.findViewById(R.id.scategor);
                                         final TextView sub = customView.findViewById(R.id.ssubcategor);
                                         final TextView bod = customView.findViewById(R.id.sbod);
                                         final TextView statu = customView.findViewById(R.id.statu);
                                         final EditText repl = customView.findViewById(R.id.repl);
+
                                         Button save = customView.findViewById(R.id.savebutton);
                                         ImageView close = customView.findViewById(R.id.closeButton);
                                         final CardItem cardItem = arrayList.get(position);
 
-                                        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Complaints").child(cardItem.getChildid());
-                                        db.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                name.setText(cardItem.getUsername());
-                                                leve.setText(cardItem.getLevel());
-                                                cat.setText(cardItem.getCategory());
-                                                sub.setText(cardItem.getSubcategory());
-                                                bod.setText(cardItem.getBody());
-                                                statu.setText(cardItem.getStatus());
-                                                repl.setText(cardItem.getReply());
-                                            }
+                                        name.setText(cardItem.getUsername());
+                                        leve.setText(cardItem.getLevel());
+                                        cat.setText(cardItem.getCategory());
+                                        sub.setText(cardItem.getSubcategory());
+                                        bod.setText(cardItem.getBody());
+                                        statu.setText(cardItem.getStatus());
+                                        repl.setText(cardItem.getReply());
+                                        addno.setText(cardItem.getAddno());
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-                                        });
                                         final PopupWindow popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
                                         popupWindow.setFocusable(true);
@@ -434,10 +425,10 @@ public class HomeM extends AppCompatActivity {
                                             public void onClick(final View v) {
                                                 final String sreply = repl.getText().toString();
                                                 cardItem.reply = sreply;
+                                                cardItem.status = "Checked";
 
                                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Complaints").child(cardItem.getChildid());
-                                                reference.child("reply").setValue(sreply);
-                                                reference.child("status").setValue("checked").addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                reference.setValue(cardItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
                                                         Toast.makeText(v.getContext(), "Saved", Toast.LENGTH_SHORT).show();
@@ -465,4 +456,25 @@ public class HomeM extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        back++;
+        if (back == 1) {
+            Toast.makeText(this, "Tap Back Again", Toast.LENGTH_SHORT).show();
+        }
+        if (back > 1) {
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    back = 0;
+                }
+            }, 2000);
+
+        }
+
+    }
 }

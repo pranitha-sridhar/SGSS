@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class frag_status extends Fragment {
 
     FirebaseAuth mAuth;
-    ImageView button;
+    FloatingActionButton createbutton;
     ArrayList<CardItem> arrayList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -50,11 +50,13 @@ public class frag_status extends Fragment {
         recyclerView = view.findViewById(R.id.recycler2);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
+        ((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         pBar = view.findViewById(R.id.pbar);
-        button = view.findViewById(R.id.createbutton);
+        createbutton = view.findViewById(R.id.createb);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        createbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pBar.setVisibility(View.GONE);
@@ -66,11 +68,12 @@ public class frag_status extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                arrayList.clear();
+                //arrayList.clear();
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String childid = ds.getKey();
                         String uname = ds.child("username").getValue().toString();
+                        String uaddno = ds.child("addno").getValue().toString();
                         String ulevel = ds.child("level").getValue().toString();
                         String ucat = ds.child("category").getValue().toString();
                         String usub = ds.child("subcategory").getValue().toString();
@@ -79,7 +82,7 @@ public class frag_status extends Fragment {
                         String ustatus = ds.child("status").getValue().toString();
                         String uuserid = ds.child("userid").getValue().toString();
                         String uper = ds.child("permission").getValue().toString();
-                        arrayList.add(new CardItem(uname, ulevel, ucat, usub, ubody, ustatus, ureply, uuserid, uper, childid));
+                        arrayList.add(new CardItem(uname, uaddno, ulevel, ucat, usub, ubody, ustatus, ureply, uuserid, uper, childid));
                     }
                     if (arrayList.isEmpty()) {
                         Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();

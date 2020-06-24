@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,7 +37,7 @@ public class HomeS extends AppCompatActivity {
     NavigationView navigationView;
     FirebaseAuth mAuth;
     FirebaseStorage storage;
-    int backpress = 0;
+    int back = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -123,11 +124,7 @@ public class HomeS extends AppCompatActivity {
 
                 ImageView imageView = headerView.findViewById(R.id.userpic);
                 Glide.with(getApplication()).load(picurl).into(imageView);
-
-
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -145,15 +142,28 @@ public class HomeS extends AppCompatActivity {
             assert current != null;
             assert current.getTag() != null;
             if (current.getTag().equals("homeTag")) {
-                backpress++;
-                if (backpress == 1)
-                    Toast.makeText(this, "Enter Back again", Toast.LENGTH_SHORT).show();
-                if (backpress > 1) super.onBackPressed();
+                back++;
+                if (back == 1) {
+                    Toast.makeText(this, "Tap Back Again", Toast.LENGTH_SHORT).show();
+                }
+                if (back > 1) {
+                    Intent a = new Intent(Intent.ACTION_MAIN);
+                    a.addCategory(Intent.CATEGORY_HOME);
+                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(a);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            back = 0;
+                        }
+                    }, 1000);
+
+                }
             }
             if (current.getTag().equals("profileTag") || current.getTag().equals("statusTag")) {
-                backpress = 0;
-                super.onBackPressed();
-                drawerLayout.closeDrawer(GravityCompat.START);
+                back = 0;
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new frag_home(), "homeTag").commit();
+                navigationView.setCheckedItem(R.id.home);
             }
 
         }

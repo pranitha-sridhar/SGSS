@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
+    android:layout_margin="5dp"
     android:padding="10dp"
     app:cardCornerRadius="4dp">
 
@@ -17,35 +17,44 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:text="Username"
-            android:textSize="20sp" />
+            android:textColor="#303F9F"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
-            android:paddingLeft="4dp"
-            android:text="Level" />
+            android:paddingStart="4dp"
+            android:text="Level"
+            android:textColor="#E9303F9F"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/subcategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="4dp"
-            android:background="@color/cardview_shadow_start_color"
-            android:text="Sub Category" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/rounded_curves"
+            android:text="Sub Category"
+            android:textColor="#FFFFFF"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/subcategory"
-            android:background="@color/cardview_shadow_start_color"
-            android:text="Category" />
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/subcategory"
+            android:background="@drawable/rounded_curves"
+            android:text="Category"
+            android:textColor="#FFFFFF"
+            android:typeface="serif" />
 
         <TextView
             android:id="@+id/body"
@@ -53,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/level"
             android:padding="4dp"
+            android:textColor="#000000"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
 
