@@ -3,16 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerInParent="true"
+    android:gravity="center"
     android:orientation="vertical"
-    android:weightSum="6"
     tools:context=".ProfileM">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
@@ -22,7 +20,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -35,8 +32,8 @@
 
         <ImageView
             android:id="@+id/usericon"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/usericon" />
 
@@ -72,7 +69,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
         android:orientation="vertical">
 
         <EditText
