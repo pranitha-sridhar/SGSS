@@ -18,7 +18,7 @@
             android:padding="4dp"
             android:text="Username"
             android:textColor="#C2185B"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
