@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
-    android:background="#00796B"
+    android:background="#D3FF8A80"
     android:elevation="10dp"
     android:orientation="vertical">
 
@@ -234,12 +234,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <ImageView
+        android:layout_marginTop="8dp"
         android:id="@+id/filbut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="FILTER" />
+        android:src="@drawable/filter" />
 
 
 </LinearLayout>

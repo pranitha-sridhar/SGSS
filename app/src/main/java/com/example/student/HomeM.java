@@ -1,10 +1,10 @@
 package com.example.student;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +37,7 @@ public class HomeM extends AppCompatActivity {
     public static String CHANNEL_ID = "SSS";
     ImageView closeb;
     FloatingActionButton filterb, signout;
-    Button filterbutton;
+    ImageView filterbutton;
     FirebaseAuth mAuth;
     ArrayList<CardItem> arrayList = new ArrayList<>();
     RecyclerView recyclerView;
@@ -100,12 +99,12 @@ public class HomeM extends AppCompatActivity {
 
                     adapter.setOnItemClickListener(new AdapterCM.OnItemClickListener() {
                         @Override
-                        public void onItemClick(final int position) {
+                        public void onItemClick(final int position, View v) {
 
                             Toast.makeText(getApplicationContext(), "Opened", Toast.LENGTH_SHORT).show();
-                            LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                            assert layoutInflater != null;
-                            View customView = layoutInflater.inflate(R.layout.member_reply, null);
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(HomeM.this);
+                            ViewGroup viewGroup = findViewById(R.id.content);
+                            View customView = LayoutInflater.from(v.getContext()).inflate(R.layout.member_reply, viewGroup, false);
 
                             final TextView name = customView.findViewById(R.id.susernam);
                             final TextView addnumber = customView.findViewById(R.id.admissionnoo);
@@ -119,10 +118,9 @@ public class HomeM extends AppCompatActivity {
                             ImageView close = customView.findViewById(R.id.closeButton);
                             final CardItem cardItem = arrayList.get(position);
 
-                            final PopupWindow popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-                            popupWindow.setFocusable(true);
-                            popupWindow.update();
+                            alert.setView(customView);
+                            final AlertDialog alertDialog = alert.create();
+                            alertDialog.show();
 
                             name.setText(cardItem.getUsername());
                             leve.setText(cardItem.getLevel());
@@ -136,7 +134,7 @@ public class HomeM extends AppCompatActivity {
                             close.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    popupWindow.dismiss();
+                                    alertDialog.dismiss();
                                 }
                             });
                             save.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +155,7 @@ public class HomeM extends AppCompatActivity {
 
                                         }
                                     });
-                                    popupWindow.dismiss();
+                                    alertDialog.dismiss();
 
                                 }
                             });
@@ -185,9 +183,9 @@ public class HomeM extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                assert layoutInflater != null;
-                final View custom = layoutInflater.inflate(R.layout.filter_out, null);
+                final AlertDialog.Builder alert = new AlertDialog.Builder(HomeM.this);
+                ViewGroup viewGroup = findViewById(R.id.content);
+                View custom = LayoutInflater.from(v.getContext()).inflate(R.layout.filter_out, viewGroup, false);
 
                 closeb = custom.findViewById(R.id.closeb);
                 filterbutton = custom.findViewById(R.id.filbut);
@@ -211,8 +209,9 @@ public class HomeM extends AppCompatActivity {
                 s33 = custom.findViewById(R.id.profbox);
                 all = custom.findViewById(R.id.allbox);
 
-                final PopupWindow popupWindow = new PopupWindow(custom, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+                alert.setView(custom);
+                final AlertDialog alertDialog1 = alert.create();
+                alertDialog1.show();
 
                 if (fl1 == 1) l1.setChecked(true);
                 if (fl2 == 1) l2.setChecked(true);
@@ -238,7 +237,7 @@ public class HomeM extends AppCompatActivity {
                 closeb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        popupWindow.dismiss();
+                        alertDialog1.dismiss();
                     }
                 });
 
@@ -341,9 +340,9 @@ public class HomeM extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                popupWindow.dismiss();
+                                alertDialog1.dismiss();
                             }
-                        }, 1000);
+                        }, 500);
 
 
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -378,14 +377,13 @@ public class HomeM extends AppCompatActivity {
                                 adapter = new AdapterCM(arrayList);
                                 recyclerView.setAdapter(adapter);
 
-
                                 adapter.setOnItemClickListener(new AdapterCM.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(final int position) {
+                                    public void onItemClick(final int position, View v) {
                                         Toast.makeText(getApplicationContext(), "Opened", Toast.LENGTH_SHORT).show();
-                                        LayoutInflater layoutInflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                        assert layoutInflater != null;
-                                        View customView = layoutInflater.inflate(R.layout.member_reply, null);
+                                        final AlertDialog.Builder alert = new AlertDialog.Builder(HomeM.this);
+                                        ViewGroup viewGroup = findViewById(R.id.content);
+                                        View customView = LayoutInflater.from(v.getContext()).inflate(R.layout.member_reply, viewGroup, false);
 
                                         final TextView name = customView.findViewById(R.id.susernam);
                                         final TextView addno = customView.findViewById(R.id.admissionnoo);
@@ -409,15 +407,14 @@ public class HomeM extends AppCompatActivity {
                                         repl.setText(cardItem.getReply());
                                         addno.setText(cardItem.getAddno());
 
-                                        final PopupWindow popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-                                        popupWindow.setFocusable(true);
-                                        popupWindow.update();
+                                        alert.setView(customView);
+                                        final AlertDialog alertDialog = alert.create();
+                                        alertDialog.show();
 
                                         close.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                popupWindow.dismiss();
+                                                alertDialog.dismiss();
                                             }
                                         });
                                         save.setOnClickListener(new View.OnClickListener() {
@@ -434,7 +431,7 @@ public class HomeM extends AppCompatActivity {
                                                         Toast.makeText(v.getContext(), "Saved", Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
-                                                popupWindow.dismiss();
+                                                alertDialog.dismiss();
 
                                             }
                                         });
@@ -458,23 +455,30 @@ public class HomeM extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        back++;
-        if (back == 1) {
-            Toast.makeText(this, "Tap Back Again", Toast.LENGTH_SHORT).show();
-        }
-        if (back > 1) {
-            Intent a = new Intent(Intent.ACTION_MAIN);
-            a.addCategory(Intent.CATEGORY_HOME);
-            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(a);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    back = 0;
-                }
-            }, 2000);
 
-        }
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(HomeM.this);
+        alert.setTitle("EXIT");
+        alert.setMessage("Do you want to exit the application?");
+        alert.setCancelable(false);
+        alert.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+
 
     }
 }

@@ -51,7 +51,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, View v);
     }
 
     public class holder extends RecyclerView.ViewHolder {
@@ -74,7 +74,7 @@ public class AdapterCM extends RecyclerView.Adapter<AdapterCM.holder> {
                 public void onClick(View v) {
                     if (listener != null) {
                         int position = getAbsoluteAdapterPosition();
-                        listener.onItemClick(position);
+                        listener.onItemClick(position, v);
                     }
                 }
             });

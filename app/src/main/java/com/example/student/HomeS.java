@@ -1,10 +1,11 @@
 package com.example.student;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -142,26 +143,30 @@ public class HomeS extends AppCompatActivity {
             assert current != null;
             assert current.getTag() != null;
             if (current.getTag().equals("homeTag")) {
-                back++;
-                if (back == 1) {
-                    Toast.makeText(this, "Tap Back Again", Toast.LENGTH_SHORT).show();
-                }
-                if (back > 1) {
-                    Intent a = new Intent(Intent.ACTION_MAIN);
-                    a.addCategory(Intent.CATEGORY_HOME);
-                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(a);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            back = 0;
-                        }
-                    }, 1000);
-
-                }
+                AlertDialog.Builder alert = new AlertDialog.Builder(HomeS.this);
+                alert.setTitle("EXIT");
+                alert.setMessage("Do you want to exit the application?");
+                alert.setCancelable(false);
+                alert.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent a = new Intent(Intent.ACTION_MAIN);
+                        a.addCategory(Intent.CATEGORY_HOME);
+                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(a);
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = alert.create();
+                dialog.show();
             }
             if (current.getTag().equals("profileTag") || current.getTag().equals("statusTag")) {
-                back = 0;
+                
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new frag_home(), "homeTag").commit();
                 navigationView.setCheckedItem(R.id.home);
             }

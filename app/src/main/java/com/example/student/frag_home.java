@@ -1,17 +1,14 @@
 package com.example.student;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,7 +33,7 @@ public class frag_home extends Fragment {
     FirebaseAuth mAuth;
     ImageView closeb;
     FloatingActionButton createb, filterb;
-    Button filterbutton;
+    ImageView filterbutton;
     ArrayList<CardItem> arrayList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -126,9 +123,9 @@ public class frag_home extends Fragment {
             @Override
             public void onClick(View v) {
 
-                LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                assert layoutInflater != null;
-                View custom = layoutInflater.inflate(R.layout.filter_out, null);
+                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                ViewGroup viewGroup = v.findViewById(R.id.content);
+                View custom = LayoutInflater.from(v.getContext()).inflate(R.layout.filter_out, viewGroup, false);
 
                 closeb = custom.findViewById(R.id.closeb);
                 filterbutton = custom.findViewById(R.id.filbut);
@@ -152,8 +149,10 @@ public class frag_home extends Fragment {
                 s33 = custom.findViewById(R.id.profbox);
                 all = custom.findViewById(R.id.allbox);
 
-                final PopupWindow popupWindow = new PopupWindow(custom, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                alert.setView(custom);
+                final AlertDialog alertDialog = alert.create();
+                alertDialog.show();
 
                 if (fl1 == 1) l1.setChecked(true);
                 if (fl2 == 1) l2.setChecked(true);
@@ -179,9 +178,10 @@ public class frag_home extends Fragment {
                 closeb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        popupWindow.dismiss();
+                        alertDialog.dismiss();
                     }
                 });
+
 
                 filterbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -282,9 +282,9 @@ public class frag_home extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                popupWindow.dismiss();
+                                alertDialog.dismiss();
                             }
-                        }, 1000);
+                        }, 500);
 
 
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
